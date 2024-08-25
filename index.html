@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>21BCE7912</title>
+</head>
+<body>
+    <h1>Enter JSON Data</h1>
+    <textarea id="jsonInput" rows="10" cols="30"></textarea>
+    <button onclick="sendData()">Submit</button>
+
+    <h2>Response:</h2>
+    <pre id="responseOutput"></pre>
+
+    <script>
+        function sendData() {
+    const input = document.getElementById('jsonInput').value;
+    try {
+        // Parse the input to ensure it is valid JSON
+        const jsonInput = JSON.parse(input);
+
+        // Send the JSON to the Flask backend
+        fetch('http://127.0.0.1:5000/bfhl', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(jsonInput),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Display the response in the HTML
+            document.getElementById('responseOutput').textContent = JSON.stringify(data, null, 2);
+        });
+    } catch (error) {
+        alert("Invalid JSON format! Please enter valid JSON.");
+    }
+}
+
+    </script>
+</body>
+</html>
